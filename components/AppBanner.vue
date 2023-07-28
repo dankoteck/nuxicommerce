@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+const element = window.document.querySelector("#trending-products");
+const top = ref(element ? element.getBoundingClientRect().top : 0);
+const threshold = 500;
+
+function smoothScroll() {
+  window.scrollTo({ top: top.value + threshold, behavior: "smooth" });
+}
+</script>
+
 <template>
   <div class="flex items-center justify-between">
     <div class="flex flex-col gap-4 flex-1">
@@ -13,6 +23,7 @@
       </p>
 
       <button
+        @click="smoothScroll"
         class="uppercase text-lg bg-green-500 hover:bg-green-600 transition duration-150 text-white px-4 py-2 text-center rounded-md w-fit mt-3"
       >
         Explore Now !

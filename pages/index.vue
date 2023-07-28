@@ -56,9 +56,11 @@ const productSections = computed(() => [
   <div class="max-w-7xl mx-auto">
     <SearchInput :searches="trendingSearches" />
 
-    <AppBanner />
+    <ClientOnly>
+      <AppBanner />
+    </ClientOnly>
 
-    <ProductLists
+    <ProductList
       v-for="section in productSections"
       v-bind="section"
       :key="section.title"

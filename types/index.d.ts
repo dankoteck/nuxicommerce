@@ -11,6 +11,18 @@ declare global {
       count: number;
     };
   };
+
+  type Cart = {
+    id: number;
+    userId: number;
+    date: string;
+    products: {
+      productId: number;
+      quantity: number;
+    }[];
+  };
+
+  type CartItem = ProductItem & { quantity: number };
 }
 
 export {};
