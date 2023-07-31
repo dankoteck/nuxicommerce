@@ -5,6 +5,7 @@ type Props = {
   withOverlay?: boolean;
   withFilter?: boolean;
   withBorder?: boolean;
+  withMarked?: boolean;
   items: ProductItem[] | null;
   navigateTo?: string;
 };
@@ -20,10 +21,10 @@ const { title, items } = withDefaults(defineProps<Props>(), {
   withOverlay: false,
   withFilter: false,
   withBorder: true,
+  withMarked: true,
 });
 
 const products = ref<ProductItem[] | null>(items);
-
 const id = title?.toLowerCase().replace(/\s/g, "-");
 
 // Methods
@@ -87,6 +88,29 @@ async function onFilter(key: string, value: string) {
 
   filterBy[key](value);
 }
+
+async function onMarked(item: ProductItem) {
+  // Simulate API call
+  loading.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  loading.value = false;
+
+  const { id } = item;
+  const markedProducts = useMarkedProducts();
+  const newMarkedProducts = isProductMarked(id)
+    ? markedProducts?.filter((item) => item.id !== id)
+    : [...(markedProducts ?? []), item];
+
+  localStorage.setItem("markedProducts", JSON.stringify(newMarkedProducts));
+}
+
+// Watchers
+watch(
+  () => items,
+  (newItems) => {
+    products.value = newItems;
+  }
+);
 </script>
 
 <template>
@@ -119,9 +143,18 @@ async function onFilter(key: string, value: string) {
           v-for="item in products"
           :key="item.id"
           :class="withBorder ? 'border-slate-200 border-r border-b' : ''"
-          class="flex flex-col gap-3 cursor-pointer text-sm p-6 group"
+          class="flex flex-col gap-3 cursor-pointer text-sm p-6 group relative"
         >
           <div class="relative pb-8">
+            <div v-if="withMarked" class="absolute top-0 right-0">
+              <button
+                @click="onMarked(item)"
+                class="border border-red-500 rounded-full p-1.5 bg-white z-10"
+              >
+                <Icon name="mdi:heart-outline" class="text-red-500 text-2xl" />
+              </button>
+            </div>
+
             <div
               class="absolute rounded-lg left-0 text-center right-0 bottom-0 h-36 bg-gradient-to-t from-black/50"
               v-if="withOverlay"

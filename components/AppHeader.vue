@@ -31,11 +31,14 @@ const cartId = Math.floor(Math.random() * (7 - 1) + 1);
 
       <!-- Bookmarked items & Cart list -->
       <div class="flex items-center gap-4">
-        <!-- <Icon
-          role="button"
-          name="material-symbols:bookmark"
-          class="text-green-500 text-4xl"
-        /> -->
+        <NuxtLink :to="`/marked`" class="relative bg-green-500 p-1 rounded-lg">
+          <Icon
+            role="button"
+            name="material-symbols:bookmark"
+            class="text-white text-3xl"
+          />
+        </NuxtLink>
+
         <NuxtLink
           :to="`/cart?id=${cartId}`"
           class="relative bg-green-500 p-1 rounded-lg"

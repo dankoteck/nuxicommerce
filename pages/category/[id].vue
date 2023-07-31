@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 const id = useRoute().params.id;
+const watchId = ref(id);
 const config = useRuntimeConfig();
-const apiUrl = `${config.public.baseURL}/products`;
-const { data: products } = useFetch<ProductItem[]>(`${apiUrl}/category/${id}`);
+const apiUrl = config.public.baseURL;
+
+const { data: products } = await useAsyncData<ProductItem[]>(
+  "products",
+  () => $fetch(`${apiUrl}/products/category/${watchId.value}`),
+  { watch: [watchId] }
+);
 </script>
 
 <template>
