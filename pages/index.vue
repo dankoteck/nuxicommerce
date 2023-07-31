@@ -22,28 +22,33 @@ const productSections = computed(() => [
   {
     title: "Trending Products",
     browseText: "Shop the collection",
+    navigateTo: "/trending",
     items: trendingProducts.value,
     withOverlay: true,
   },
   {
     title: "Electronic Products",
     browseText: "See everything",
+    navigateTo: "/category/electronics",
     items: electronicProducts.value,
   },
   {
     title: "Jewelery Products",
     browseText: "Browse the collection",
+    navigateTo: "/category/jewelery",
     items: jeweleryProducts.value,
     withOverlay: true,
   },
   {
     title: "Men's Clothing Products",
     browseText: "View all",
+    navigateTo: "/category/men's clothing",
     items: mensClothing.value,
   },
   {
     title: "Women's Clothing Products",
     browseText: "Get the look",
+    navigateTo: "/category/women's Clothing",
     items: womensClothing.value,
     withOverlay: true,
   },

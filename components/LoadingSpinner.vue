@@ -9,6 +9,7 @@ defineProps<{
     <slot />
 
     <div
+      v-if="spinning"
       :class="{ 'opacity-100': spinning, 'opacity-0': !spinning }"
       class="w-full h-full inset-0 absolute bg-white/60"
     >

@@ -6,6 +6,7 @@ type Props = {
   withFilter?: boolean;
   withBorder?: boolean;
   items: ProductItem[] | null;
+  navigateTo?: string;
 };
 
 // Variables
@@ -94,9 +95,11 @@ async function onFilter(key: string, value: string) {
 
     <div class="flex items-center justify-between">
       <p class="font-semibold text-xl">{{ title }}</p>
-      <p v-if="browseText" class="text-green-600 cursor-pointer">
-        {{ browseText }} →
-      </p>
+      <NuxtLink :to="navigateTo">
+        <p v-if="browseText" class="text-green-600 cursor-pointer">
+          {{ browseText }} →
+        </p>
+      </NuxtLink>
     </div>
 
     <LoadingSpinner :spinning="loading">
@@ -145,7 +148,9 @@ async function onFilter(key: string, value: string) {
           <p class="line-clamp-3">{{ item.description }}</p>
           <div class="flex items-center justify-between">
             <p class="text-red-500 font-medium text-lg">${{ item.price }}</p>
-            <p class="">{{ Math.floor(item.rating.rate) }} ⭐️ ({{ item.rating.count }})</p>
+            <p class="">
+              {{ Math.floor(item.rating.rate) }} ⭐️ ({{ item.rating.count }})
+            </p>
           </div>
 
           <button
