@@ -4,7 +4,7 @@ const apiUrl = config.public.baseURL;
 const { data } = await useFetch<string[]>(`${apiUrl}/products/categories`);
 
 // Random cart id from 1 to 7 for demo purpose
-const cartId = Math.floor(Math.random() * (7 - 1) + 1)
+const cartId = Math.floor(Math.random() * (7 - 1) + 1);
 </script>
 
 <template>
@@ -20,12 +20,13 @@ const cartId = Math.floor(Math.random() * (7 - 1) + 1)
 
       <!-- Navbar Items -->
       <nav class="flex items-center gap-6 uppercase">
-        <div
-          class="cursor-pointer duration-150 transition hover:text-black text-green-500 font-semibold"
-          v-for="item in data"
-        >
-          {{ item }}
-        </div>
+        <NuxtLink :to="`/category/${item}`" v-for="item in data">
+          <div
+            class="cursor-pointer duration-150 transition hover:text-black text-green-500 font-semibold"
+          >
+            {{ item }}
+          </div>
+        </NuxtLink>
       </nav>
 
       <!-- Bookmarked items & Cart list -->

@@ -1,16 +1,29 @@
 <script lang="ts" setup>
+type Props = {
+  title?: string;
+  browseText?: string;
+  withOverlay?: boolean;
+  withFilter?: boolean;
+  withBorder?: boolean;
+  items: ProductItem[] | null;
+};
+
 // Variables
 const { $swal } = useNuxtApp();
+const loading = ref(false);
 
 // Props
-const { title } = defineProps<{
-  title: string;
-  browseText: string;
-  withOverlay: boolean;
-  items: ProductItem[] | null;
-}>();
+const { title, items } = withDefaults(defineProps<Props>(), {
+  title: "",
+  browseText: "",
+  withOverlay: false,
+  withFilter: false,
+  withBorder: true,
+});
 
-const id = title.toLowerCase().replace(/\s/g, "-");
+const products = ref<ProductItem[] | null>(items);
+
+const id = title?.toLowerCase().replace(/\s/g, "-");
 
 // Methods
 function addToBag() {
@@ -21,23 +34,46 @@ function addToBag() {
     confirmButtonText: "OK",
   });
 }
+
+async function onSortProducts(sort: string) {
+  loading.value = true;
+  // Simulate API call
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  loading.value = false;
+
+  if (sort === "desc") {
+    products.value = products.value?.reverse() as ProductItem[];
+  } else {
+    products.value = products.value?.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    ) as ProductItem[];
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-col gap-4 my-24" :id="id">
+    <ProductFilters v-if="withFilter" @sort="onSortProducts" />
+
     <div class="flex items-center justify-between">
       <p class="font-semibold text-xl">{{ title }}</p>
-      <p class="text-green-600 cursor-pointer">{{ browseText }} →</p>
+      <p v-if="browseText" class="text-green-600 cursor-pointer">
+        {{ browseText }} →
+      </p>
     </div>
 
+    <LoadingSpinner v-if="loading" />
+
     <div
-      class="grid grid-cols-4 border-slate-200 border-t border-l"
-      v-if="items"
+      :class="withBorder ? 'border-slate-200 border-t border-l' : ''"
+      class="grid grid-cols-4"
+      v-if="products"
     >
       <div
-        v-for="item in items"
+        v-for="item in products"
         :key="item.id"
-        class="flex flex-col gap-3 cursor-pointer text-sm border-slate-200 border-r border-b p-6 group"
+        :class="withBorder ? 'border-slate-200 border-r border-b' : ''"
+        class="flex flex-col gap-3 cursor-pointer text-sm p-6 group"
       >
         <div class="relative pb-8">
           <div

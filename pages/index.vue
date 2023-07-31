@@ -29,7 +29,6 @@ const productSections = computed(() => [
     title: "Electronic Products",
     browseText: "See everything",
     items: electronicProducts.value,
-    withOverlay: false,
   },
   {
     title: "Jewelery Products",
@@ -41,7 +40,6 @@ const productSections = computed(() => [
     title: "Men's Clothing Products",
     browseText: "View all",
     items: mensClothing.value,
-    withOverlay: false,
   },
   {
     title: "Women's Clothing Products",
