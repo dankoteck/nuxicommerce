@@ -65,7 +65,7 @@ async function onCheckout() {
     Your Shopping bag
   </h1>
 
-  <CartNotFound v-if="products.length === 0" />
+  <NotFoundItem v-if="products.length === 0" />
 
   <div v-else class="max-w-7xl mx-auto grid grid-cols-3 gap-8 py-8">
     <CartItems
