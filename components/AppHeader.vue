@@ -19,7 +19,7 @@ const cartId = Math.floor(Math.random() * (7 - 1) + 1);
       </NuxtLink>
 
       <!-- Navbar Items -->
-      <nav class="flex items-center gap-6 uppercase">
+      <nav class="hidden text-sm md:text-base lg:flex items-center gap-6 uppercase">
         <NuxtLink :to="`/category/${item}`" v-for="item in data">
           <div
             class="cursor-pointer duration-150 transition hover:text-black text-green-500 font-semibold"

@@ -9,9 +9,9 @@ function smoothScroll() {
 </script>
 
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between px-8">
     <div class="flex flex-col gap-4 flex-1">
-      <h1 class="text-green-500 text-7xl">
+      <h1 class="text-green-500 text-4xl lg:text-5xl xl:text-7xl">
         Nuxicommerce &
         <br />
         Fake Store Api.
@@ -31,11 +31,11 @@ function smoothScroll() {
     </div>
 
     <!-- Thumbnail for random product -->
-    <div class="flex-1 relative pl-36">
+    <div class="flex-1 relative pl-20">
       <img
         alt="Thumbnail"
         src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-        class="aspect-square w-full h-full object-cover rounded-[50px]"
+        class="w-full h-full object-cover object-center"
       />
     </div>
   </div>

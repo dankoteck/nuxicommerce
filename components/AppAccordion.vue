@@ -7,7 +7,7 @@ const open = ref(false);
 </script>
 
 <template>
-  <div class="border-t border-t-slate-200 py-4">
+  <div class="border-t border-t-slate-200 py-2 md:py-4">
     <button
       type="button"
       @click="open = !open"

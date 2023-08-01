@@ -67,7 +67,7 @@ async function onCheckout() {
 
   <NotFoundItem v-if="products.length === 0" />
 
-  <div v-else class="max-w-7xl mx-auto grid grid-cols-3 gap-8 py-8">
+  <div v-else class="max-w-7xl mx-auto grid grid-cols-3 px-4 gap-8 py-8">
     <CartItems
       :products="(products as CartItem[])"
       @changeQuantity="onChangeQuantity"

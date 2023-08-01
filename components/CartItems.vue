@@ -7,7 +7,7 @@ defineEmits(["changeQuantity", "removeProduct"]);
 </script>
 
 <template>
-  <div class="col-span-2 px-8">
+  <div class="col-span-3 lg:col-span-2 px-8">
     <div
       v-for="product in products"
       class="border-b border-b-slate-200 py-8 grid grid-cols-3 gap-8"

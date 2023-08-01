@@ -10,7 +10,7 @@ defineEmits(["checkout"]);
 </script>
 
 <template>
-  <div class="space-y-6 rounded-lg bg-slate-50 p-8 self-baseline">
+  <div class="space-y-6 col-span-3 lg:col-span-1 rounded-lg bg-slate-50 p-8 self-baseline">
     <h2 class="text-2xl font-semibold text-center">Payment</h2>
 
     <div class="flex items-center justify-between">
@@ -35,7 +35,7 @@ defineEmits(["checkout"]);
 
     <button
       @click="$emit('checkout')"
-      class="w-full transition duration-150 py-3 bg-green-500 text-white hover:bg-green-600 cursor-pointer text-center text-lg rounded-md"
+      class="w-full transition duration-150 py-3 bg-green-500 text-white hover:bg-green-600 cursor-pointer text-center text-xl md:text-lg rounded-md"
     >
       Checkout
     </button>

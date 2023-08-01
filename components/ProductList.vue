@@ -92,18 +92,17 @@ watch(
 
       <div
         :class="withBorder ? 'border-slate-200 border-t border-l' : ''"
-        class="grid grid-cols-4"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         v-if="products"
       >
-        <NuxtLink
+        <div
           v-for="item in products"
-          :to="'/product/' + item.id"
           :key="item.id"
           :class="withBorder ? 'border-slate-200 border-r border-b' : ''"
           class="flex flex-col gap-3 cursor-pointer text-sm p-6 group relative"
         >
           <div class="relative pb-8">
-            <div class="absolute top-0 right-0">
+            <div class="z-50 absolute top-0 right-0">
               <ClientOnly>
                 <button
                   @click="onMarked(item)"
@@ -112,31 +111,32 @@ watch(
                       ? 'bg-red-500 text-white'
                       : 'text-red-500 bg-white'
                   "
-                  class="z-50 border border-red-500 rounded-full p-1.5"
+                  class="border border-red-500 rounded-full p-1.5"
                 >
                   <Icon name="mdi:heart-outline" class="text-2xl" />
                 </button>
               </ClientOnly>
             </div>
-
-            <div
-              class="absolute rounded-lg left-0 text-center right-0 bottom-0 h-36 bg-gradient-to-t from-black/50"
-              v-if="withOverlay"
-            >
-              <button
-                @click="CartContext.addToCart"
-                class="w-fit group-hover:opacity-100 px-16 border opacity-0 border-green-500 transition duration-150 bg-green-500 text-white py-2 text-center rounded-md"
+            <NuxtLink :to="'/product/' + item.id">
+              <div
+                class="absolute rounded-lg left-0 text-center right-0 bottom-0 h-36 bg-gradient-to-t from-black/50"
+                v-if="withOverlay"
               >
-                Add to bag
-              </button>
-            </div>
+                <button
+                  @click="CartContext.addToCart"
+                  class="w-fit group-hover:opacity-100 px-16 border opacity-0 border-green-500 transition duration-150 bg-green-500 text-white py-2 text-center rounded-md"
+                >
+                  Add to bag
+                </button>
+              </div>
 
-            <img
-              :src="item.image"
-              :alt="item.description"
-              :class="{ 'group-hover:opacity-60': !withOverlay }"
-              class="aspect-square w-full h-full object-contain object-bottom transition duration-150"
-            />
+              <img
+                :src="item.image"
+                :alt="item.description"
+                :class="{ 'group-hover:opacity-60': !withOverlay }"
+                class="aspect-square w-full h-full object-contain object-bottom transition duration-150"
+              />
+            </NuxtLink>
           </div>
 
           <p class="font-semibold text-lg line-clamp-1 py-1">
@@ -157,7 +157,7 @@ watch(
           >
             Add to bag
           </button>
-        </NuxtLink>
+        </div>
       </div>
     </LoadingSpinner>
   </div>

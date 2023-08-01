@@ -56,7 +56,7 @@ const productSections = computed(() => [
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto px-8">
     <SearchInput :searches="trendingSearches" />
 
     <ClientOnly>

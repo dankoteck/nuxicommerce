@@ -42,7 +42,7 @@ async function onMarked(product: ProductItem) {
 
 <template>
   <LoadingSpinner :spinning="loading">
-    <div class="max-w-7xl mx-auto p-8 grid grid-cols-2 gap-6">
+    <div class="max-w-7xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="space-y-4">
         <div class="relative overflow-hidden">
           <img
@@ -71,7 +71,7 @@ async function onMarked(product: ProductItem) {
         </div>
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-4 !mt-10 md:!mt-0">
         <h1 class="text-2xl font-semibold">{{ product?.title }}</h1>
         <h2 class="text-red-500 text-2xl font-semibold">
           ${{ product?.price }}
@@ -111,7 +111,7 @@ async function onMarked(product: ProductItem) {
         <div class="!mt-20">
           <AppAccordion title="Feature">
             <ul class="space-y-3 list-disc list-inside">
-              <li class="text-sm" v-for="desc in 4" :key="desc">
+              <li class="text-base md:text-sm " v-for="desc in 4" :key="desc">
                 {{ descriptions[desc] }}
               </li>
             </ul>
@@ -119,7 +119,7 @@ async function onMarked(product: ProductItem) {
 
           <AppAccordion title="Care">
             <ul class="space-y-3 list-disc list-inside">
-              <li class="text-sm" v-for="desc in 6" :key="desc">
+              <li class="text-base md:text-sm " v-for="desc in 6" :key="desc">
                 {{ descriptions[desc] }}
               </li>
             </ul>
@@ -127,7 +127,7 @@ async function onMarked(product: ProductItem) {
 
           <AppAccordion title="Shipping">
             <ul class="space-y-3 list-disc list-inside">
-              <li class="text-sm" v-for="desc in 2" :key="desc">
+              <li class="text-base md:text-sm " v-for="desc in 2" :key="desc">
                 {{ descriptions[desc] }}
               </li>
             </ul>
@@ -135,7 +135,7 @@ async function onMarked(product: ProductItem) {
 
           <AppAccordion title="Return">
             <ul class="space-y-3 list-disc list-inside">
-              <li class="text-sm" v-for="desc in 5" :key="desc">
+              <li class="text-base md:text-sm " v-for="desc in 5" :key="desc">
                 {{ descriptions[desc] }}
               </li>
             </ul>
