@@ -102,7 +102,7 @@ watch(
           class="flex flex-col gap-3 cursor-pointer text-sm p-6 group relative"
         >
           <div class="relative pb-8">
-            <div class="z-50 absolute top-0 right-0">
+            <div class="z-40 absolute top-0 right-0">
               <ClientOnly>
                 <button
                   @click="onMarked(item)"
