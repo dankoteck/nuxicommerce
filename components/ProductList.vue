@@ -1,18 +1,18 @@
 <script lang="ts" setup>
+// Types
 type Props = {
   title?: string;
   browseText?: string;
   withOverlay?: boolean;
   withFilter?: boolean;
   withBorder?: boolean;
-  withMarked?: boolean;
   items: ProductItem[] | null;
   navigateTo?: string;
 };
 
 // Variables
-const { $swal } = useNuxtApp();
 const loading = ref(false);
+const CartContext = useCart();
 
 // Props
 const { title, items } = withDefaults(defineProps<Props>(), {
@@ -21,50 +21,12 @@ const { title, items } = withDefaults(defineProps<Props>(), {
   withOverlay: false,
   withFilter: false,
   withBorder: true,
-  withMarked: true,
 });
 
 const products = ref<ProductItem[] | null>(items);
 const id = title?.toLowerCase().replace(/\s/g, "-");
 
 // Methods
-const filterBy: Record<string, (value: string) => void> = {
-  price: (value: string) => {
-    products.value = items?.filter((item) => {
-      const price = item.price;
-
-      const [min, max] = value.split(" ");
-
-      if (min === "<=" && price <= parseInt(max)) {
-        return true;
-      } else if (min === ">=" && price >= parseInt(max)) {
-        return true;
-      } else if (min !== "<=" && min !== ">=") {
-        const [min, max] = value.split(" ");
-        return price >= parseInt(min) && price <= parseInt(max);
-      }
-
-      return false;
-    }) as ProductItem[];
-  },
-
-  rating: (value: string) => {
-    products.value = items?.filter((item) => {
-      const { rating } = item;
-      return rating.rate >= parseInt(value);
-    }) as ProductItem[];
-  },
-};
-
-function addToBag() {
-  $swal.fire({
-    title: "Success!",
-    text: "Item added to bag!",
-    icon: "success",
-    confirmButtonText: "OK",
-  });
-}
-
 async function onSort(sort: string) {
   // Simulate API call
   loading.value = true;
@@ -86,7 +48,7 @@ async function onFilter(key: string, value: string) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   loading.value = false;
 
-  filterBy[key](value);
+  products.value = CartContext.FilterBy[key](products.value, value);
 }
 
 async function onMarked(item: ProductItem) {
@@ -95,13 +57,7 @@ async function onMarked(item: ProductItem) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   loading.value = false;
 
-  const { id } = item;
-  const markedProducts = useMarkedProducts();
-  const newMarkedProducts = isProductMarked(id)
-    ? markedProducts?.filter((item) => item.id !== id)
-    : [...(markedProducts ?? []), item];
-
-  localStorage.setItem("markedProducts", JSON.stringify(newMarkedProducts));
+  CartContext.saveMarkedProducts(item);
 }
 
 // Watchers
@@ -139,20 +95,28 @@ watch(
         class="grid grid-cols-4"
         v-if="products"
       >
-        <div
+        <NuxtLink
           v-for="item in products"
+          :to="'/product/' + item.id"
           :key="item.id"
           :class="withBorder ? 'border-slate-200 border-r border-b' : ''"
           class="flex flex-col gap-3 cursor-pointer text-sm p-6 group relative"
         >
           <div class="relative pb-8">
-            <div v-if="withMarked" class="absolute top-0 right-0">
-              <button
-                @click="onMarked(item)"
-                class="border border-red-500 rounded-full p-1.5 bg-white z-10"
-              >
-                <Icon name="mdi:heart-outline" class="text-red-500 text-2xl" />
-              </button>
+            <div class="absolute top-0 right-0">
+              <ClientOnly>
+                <button
+                  @click="onMarked(item)"
+                  :class="
+                    CartContext.isProductMarked(item.id)
+                      ? 'bg-red-500 text-white'
+                      : 'text-red-500 bg-white'
+                  "
+                  class="z-50 border border-red-500 rounded-full p-1.5"
+                >
+                  <Icon name="mdi:heart-outline" class="text-2xl" />
+                </button>
+              </ClientOnly>
             </div>
 
             <div
@@ -160,7 +124,7 @@ watch(
               v-if="withOverlay"
             >
               <button
-                @click="addToBag"
+                @click="CartContext.addToCart"
                 class="w-fit group-hover:opacity-100 px-16 border opacity-0 border-green-500 transition duration-150 bg-green-500 text-white py-2 text-center rounded-md"
               >
                 Add to bag
@@ -188,12 +152,12 @@ watch(
 
           <button
             v-if="!withOverlay"
-            @click="addToBag"
+            @click="CartContext.addToCart"
             class="w-full border border-green-500 transition duration-150 hover:bg-green-500 hover:text-white py-2 text-center rounded-md mt-3"
           >
             Add to bag
           </button>
-        </div>
+        </NuxtLink>
       </div>
     </LoadingSpinner>
   </div>

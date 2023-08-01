@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const apiUrl = config.public.baseURL;
-const { data: products } = useFetch<ProductItem[]>(`${apiUrl}/products`);
+const { data: products } = await useAsyncData<ProductItem[]>(
+  "trending-products",
+  () => $fetch(`${apiUrl}/products`)
+);
 </script>
 
 <template>
@@ -13,13 +16,6 @@ const { data: products } = useFetch<ProductItem[]>(`${apiUrl}/products`);
       <h3 class="text-xl">All handpicked products by our team of experts</h3>
     </header>
 
-    <main class="">
-      <ProductList
-        withOverlay
-        withFilter
-        :withBorder="false"
-        :items="products"
-      />
-    </main>
+    <ProductList withOverlay withFilter :withBorder="false" :items="products" />
   </div>
 </template>

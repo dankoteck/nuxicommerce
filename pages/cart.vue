@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // Variables
-const shipping = 10;
-const tax = 8.75;
+const shippingCost = 10;
+const taxCost = 8.75;
 const { $swal } = useNuxtApp();
 const { id } = useRoute().query;
 const config = useRuntimeConfig();
@@ -23,13 +23,13 @@ const products = ref(
 );
 
 // Computed
-const subtotal = computed(() =>
-  products.value.reduce(
-    (acc, item) => acc + item.price * (item.quantity ?? 0),
+const subtotal = computed(() => {
+  return products.value.reduce(
+    (sum, item) => sum + item.price * (item.quantity ?? 0),
     0
-  )
-);
-const total = computed(() => subtotal.value + shipping + tax);
+  );
+});
+const total = computed(() => subtotal.value + shippingCost + taxCost);
 
 // Methods
 function onChangeQuantity(productId: number, quantity: number) {
@@ -76,8 +76,8 @@ async function onCheckout() {
 
     <PaymentSummary
       :subtotal="subtotal"
-      :shipping="shipping"
-      :tax="tax"
+      :shipping="shippingCost"
+      :tax="taxCost"
       :total="total"
       @checkout="onCheckout"
     />
